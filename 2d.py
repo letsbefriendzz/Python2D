@@ -35,15 +35,14 @@ def get_y_coordinate(decimal):
 
 # new shape object
 cds = shape.shape()
-j = 0
-while j < 25:
-    cds.add(random.random(), random.random())
-    j+=1
+
+for cd in shape.pentagon:
+    cds.add(cd.x, cd.y)
 
 angles = shape.relative_angles(cds.get_median(), cds)
 
 i = 0
-x = 500
+x = 100
 
 # make x many modifications to the image
 while i < x:
@@ -53,31 +52,31 @@ while i < x:
 
     # sets our coordinates to white
     for cd in cds.coordinates:
-        set_pixel(img, cd, rgb=[255,255,255])
+        set_pixel(img, cd, rgb=[255,255,255], stroke=1)
+
+    for cd in cds.get_medians().coordinates:
+        set_pixel(img, cd, rgb=[0,0,255], stroke=1)
+
+    for cd in cds.get_medians().get_medians().coordinates:
+        set_pixel(img, cd, rgb=[0,255,0], stroke=1)
 
     md = cds.get_median()
-    set_pixel(img, md, rgb=[0,0,255], stroke=1.5)
+    set_pixel(img, md, rgb=[255,0,0], stroke=1.5)
 
     # generates median coordinates, sets those to white
 
-    """
-        if i % 4 == 0:
-            cds.coordinates[0].y += 0.0025
-            cds.coordinates[1].x += 0.0025
-            cds.coordinates[2].y -= 0.0025
-            cds.coordinates[3].x += 0.0025
-            cds.coordinates[4].x += 0.0025
+    cds.coordinates[0].x -= 0.0025
+    cds.coordinates[4].x -= 0.0025
 
-        cds.coordinates[0].x += 0.0025
-        cds.coordinates[1].y += 0.0025
-        cds.coordinates[2].x -= 0.0025
-        cds.coordinates[3].y += 0.0025
-        cds.coordinates[4].y += 0.0025
-    """
+    cds.coordinates[0].y -= 0.0025
+    cds.coordinates[4].y -= 0.0025
 
     cv2.imshow('img', img)
     cv2.waitKey(50)
     i += 1
+
+cv2.imshow('img',img)
+cv2.waitKey(5000)
 
 """
 STAR

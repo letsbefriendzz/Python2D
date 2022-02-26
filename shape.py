@@ -100,11 +100,6 @@ class shape:
             x2=self.coordinates[j].x
             y2=self.coordinates[j].y
 
-            print(x1)
-            print(x2)
-            print(y1)
-            print(y2)
-
             if median( x1,y1,x2,y2 ) not in medians:
                 medians.append(median( x1,y1,x2,y2 ))
             i+=1
