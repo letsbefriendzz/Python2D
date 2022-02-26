@@ -1,8 +1,19 @@
 # time to migrate this to java...
 import math
+import random
 from coordinate import coordinate
 
-pentagon = [ coordinate(.3,.5),coordinate(.4,.7),coordinate(.6,.7),coordinate(.7,.5),coordinate(.5,.35) ]
+def pentagon():
+    pentagon = [ coordinate(.3,.5),coordinate(.4,.7),coordinate(.6,.7),coordinate(.7,.5),coordinate(.5,.35) ]
+
+def rnd(size):
+    cds = shape()
+    j = 0
+    while j < size:
+        cds.add(random.random(), random.random())
+        j += 1
+
+    return cds
 
 def median(x,y,x2,y2):
     return [(x+x2)/2, (y+y2)/2]
@@ -54,6 +65,12 @@ class shape:
     """
     def add(self, x, y):
         self.coordinates.append(coordinate(x,y))
+
+    def pop(self, index=-1):
+        if index == -1:
+            return self.coordinates.pop()
+        else:
+            return self.coordinates.pop(index)
 
     """
     HOLY HECK LET'S TALK
