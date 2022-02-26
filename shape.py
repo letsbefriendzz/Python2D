@@ -4,7 +4,19 @@ import random
 from coordinate import coordinate
 
 def pentagon():
+    pent = shape()
     pentagon = [ coordinate(.3,.5),coordinate(.4,.7),coordinate(.6,.7),coordinate(.7,.5),coordinate(.5,.35) ]
+    for cd in pentagon:
+        pent.add(cd.x,cd.y)
+    return pent
+
+def square():
+    sq = shape()
+    square = [ coordinate(.3,.3), coordinate(.3,.7), coordinate(.7,.7), coordinate(.7,.3) ]
+    for cd in square:
+        sq.add(cd.x,cd.y)
+    
+    return sq
 
 def rnd(size):
     cds = shape()

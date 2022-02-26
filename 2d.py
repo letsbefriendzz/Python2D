@@ -37,7 +37,7 @@ def get_y_coordinate(decimal):
     return int( (1 - decimal) * height )
 
 def main():
-    cds = shape.rnd(50)
+    cds = shape.square()
 
     # init shape with 50 random coords
     pixel_color = [255,255,255]
@@ -47,7 +47,8 @@ def main():
 
     # i to iterate over x
     i = 0
-    x = 1000
+    x = 376
+    j = x/2
     # make x many modifications to the image
     while i < x:
         # init new img, all black
@@ -57,20 +58,52 @@ def main():
         for cd in cds.coordinates:
             set_pixel(img, cd, pixel_color, stroke=1)
 
+        for cd in cds.get_medians().coordinates:
+            set_pixel(img, cd, [150,100,200], stroke=1)
+
+        for cd in cds.get_medians().get_medians().coordinates:
+            set_pixel(img, cd, [0,255,255], stroke=0.5)
+
+        for cd in cds.get_medians().get_medians().get_medians().coordinates:
+            set_pixel(img, cd, [0,0,255], stroke=0.5)
+
+        for cd in cds.get_medians().get_medians().get_medians().get_medians().coordinates:
+            set_pixel(img, cd, [0,255,0], stroke=0.5)
+
+        set_pixel(img, cds.get_median(), [255,0,0], stroke=1)
+
         # generates median coordinates, sets those to white
 
         frames.append(img)
 
-        pixel_color[0] -= 5
-        pixel_color[1] -= 5
-        pixel_color[2] -= 5
+        if i < x:
+            if i < j / 2:
+                cds.coordinates[0].x -= 0.0015
+                cds.coordinates[0].y -= 0.0015
+                cds.coordinates[2].x += 0.0015
+                cds.coordinates[2].y += 0.0015
+            elif i < j:
+                cds.coordinates[0].x += 0.0015
+                cds.coordinates[0].y += 0.0015
+                cds.coordinates[2].x -= 0.0015
+                cds.coordinates[2].y -= 0.0015
+            elif i > j and i < j + ( j / 2 ):
+                cds.coordinates[1].x -= 0.0015
+                cds.coordinates[1].y -= 0.0015
+                cds.coordinates[3].x += 0.0015
+                cds.coordinates[3].y += 0.0015
+            else:
+                cds.coordinates[1].x += 0.0015
+                cds.coordinates[1].y += 0.0015
+                cds.coordinates[3].x -= 0.0015
+                cds.coordinates[3].y -= 0.0015
             
-
+        print(i)
         i += 1
     
     for frame in frames:
         cv2.imshow('frame', frame)
-        cv2.waitKey(10)
+        cv2.waitKey(1)
 
     imageio.mimsave('F:\\test.gif', frames, fps=60)
 
