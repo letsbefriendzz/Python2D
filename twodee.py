@@ -1,12 +1,12 @@
 import random
-from tarfile import PAX_FIELDS
 import shape
 import cv2
 import imageio
 import numpy as np
+import keyboard
 
-width = 500
-height = 500
+width = 800
+height = 800
 
 def set_pixel(image, cd, rgb=[255,255,255], stroke=0):
 
@@ -36,6 +36,30 @@ def get_x_coordinate(decimal):
 def get_y_coordinate(decimal):
     return int( (1 - decimal) * height )
 
+def w_press(cds):
+    cds.coordinates[0].x -= 0.0015
+    cds.coordinates[0].y -= 0.0015
+    cds.coordinates[2].x += 0.0015
+    cds.coordinates[2].y += 0.0015
+
+def a_press(cds):
+    cds.coordinates[1].x -= 0.0015
+    cds.coordinates[1].y -= 0.0015
+    cds.coordinates[3].x += 0.0015
+    cds.coordinates[3].y += 0.0015
+
+def s_press(cds):
+    cds.coordinates[0].x += 0.0015
+    cds.coordinates[0].y += 0.0015
+    cds.coordinates[2].x -= 0.0015
+    cds.coordinates[2].y -= 0.0015
+
+def d_press(cds):
+    cds.coordinates[1].x += 0.0015
+    cds.coordinates[1].y += 0.0015
+    cds.coordinates[3].x -= 0.0015
+    cds.coordinates[3].y -= 0.0015
+
 def main():
     cds = shape.square()
 
@@ -50,7 +74,7 @@ def main():
     x = 376
     j = x/2
     # make x many modifications to the image
-    while i < x:
+    while True:
         # init new img, all black
         img = np.zeros((height, width, 3), np.uint8)
 
@@ -72,17 +96,23 @@ def main():
 
         set_pixel(img, cds.get_median(), [255,0,0], stroke=1)
 
-        # generates median coordinates, sets those to white
+        if keyboard.is_pressed('w'):
+            w_press(cds)
+        elif keyboard.is_pressed('a'):
+            a_press(cds)
+        elif keyboard.is_pressed('s'):
+            s_press(cds)
+        elif keyboard.is_pressed('d'):
+            d_press(cds)
 
-        frames.append(img)
-
+        """
         if i < x:
             if i < j / 2:
                 cds.coordinates[0].x -= 0.0015
                 cds.coordinates[0].y -= 0.0015
                 cds.coordinates[2].x += 0.0015
                 cds.coordinates[2].y += 0.0015
-            elif i < j:
+            elif i < j:sad
                 cds.coordinates[0].x += 0.0015
                 cds.coordinates[0].y += 0.0015
                 cds.coordinates[2].x -= 0.0015
@@ -97,18 +127,20 @@ def main():
                 cds.coordinates[1].y += 0.0015
                 cds.coordinates[3].x -= 0.0015
                 cds.coordinates[3].y -= 0.0015
-            
-        print(i)
+        """
+
+        cv2.imshow('frame', img)
+        cv2.waitKey(10)
+
+        #frames.append(img)
+        
         i += 1
     
     for frame in frames:
         cv2.imshow('frame', frame)
-        cv2.waitKey(1)
+        cv2.waitKey(10)
 
     imageio.mimsave('F:\\test.gif', frames, fps=60)
-
-# CALL MAIN
-main()
 
 """
 STAR
@@ -146,4 +178,31 @@ PENTAGONAL MANIPULATION
 
             cds.coordinates[0].y += 0.0025
             cds.coordinates[4].y += 0.0025
+"""
+
+"""
+square maipulation
+opposite corner pulling
+
+        if i < x:
+            if i < j / 2:
+                cds.coordinates[0].x -= 0.0015
+                cds.coordinates[0].y -= 0.0015
+                cds.coordinates[2].x += 0.0015
+                cds.coordinates[2].y += 0.0015
+            elif i < j:
+                cds.coordinates[0].x += 0.0015
+                cds.coordinates[0].y += 0.0015
+                cds.coordinates[2].x -= 0.0015
+                cds.coordinates[2].y -= 0.0015
+            elif i > j and i < j + ( j / 2 ):
+                cds.coordinates[1].x -= 0.0015
+                cds.coordinates[1].y -= 0.0015
+                cds.coordinates[3].x += 0.0015
+                cds.coordinates[3].y += 0.0015
+            else:
+                cds.coordinates[1].x += 0.0015
+                cds.coordinates[1].y += 0.0015
+                cds.coordinates[3].x -= 0.0015
+                cds.coordinates[3].y -= 0.0015
 """
