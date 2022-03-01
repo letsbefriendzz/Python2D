@@ -4,6 +4,7 @@ import cv2
 import imageio
 import numpy as np
 import keyboard
+import coordinate
 
 width = 800
 height = 800
@@ -28,6 +29,17 @@ def set_pixel(image, cd, rgb=[255,255,255], stroke=0):
                 image[y][x][2] = rgb[2]
             x += 1
         y += 1
+
+def draw_vertical(frame, p1, p2, rgb=[0,0,0], stroke=0):
+    if p1.y < p2.y:
+        y1 = p1.y
+        y2 = p2.y
+        while y1 < p2.y:
+            set_pixel(frame, coordinate.coordinate(p1.y, p1.x), rgb, stroke)
+            y1 += 0.001
+            print('meme')
+    else:
+        print("bad values")
 
 # mutliply decimal by width coordinate
 def get_x_coordinate(decimal):
